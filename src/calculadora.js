@@ -1,6 +1,6 @@
 // src/calculadora.js
 function soma(a, b) {
-    return a + b + 1;
+    return a + b;
 }
 
 function subtracao(a, b) {
