@@ -1,0 +1,48 @@
+name: Pipeline CI/CD Node.js
+
+# gatinho: quando vai rodar
+on:
+  push:
+    branchs: [ "main" ]
+  pull_request:
+    branchs: [ "main" ]
+
+# jobs: o que vai ser executado
+jobs:
+  build-and-test:
+    name: Build e Testes
+    # computador virtual do github
+    runs-on: ubuntu-latest
+
+    # steps: passo a passo
+    steps:
+    # baixar o código do repo para a vm
+    - name: Checkout do código
+      uses: actions/checkout@v4
+
+    # instalar o node.js na vm
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    # instalar depedencias do projeto (jest)
+    - name: Instalar dependências
+      run: npm install
+
+    # rodar os testes (ci)
+    - name: Executar Testes Unitários
+      run: npm test
+
+  deploy-simulado:
+    name: Deploy em Produção
+    # roda se o job passar (cd)
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Simular Deploy
+      run: |
+        echo "Conectando ao servidor..."
+        echo "Copiando arquivos..."
+        echo "Deploy realizado com sucesso!"
